@@ -8,11 +8,9 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ErrorPayloadWhithListDTO extends ErrorPayload{
+public class ErrorPayloadWhithListDTO{
+    String message;
+    Date timestamp;
     List<String> errorlist;
 
-    public ErrorPayloadWhithListDTO(String message, Date timestamp, List<String> errorlist) {
-        super(message, timestamp);
-        this.errorlist = errorlist;
-    }
 }

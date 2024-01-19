@@ -13,4 +13,10 @@ import java.util.List;
 @Slf4j
 public class ExceptionHandler {
 
+   /* @org.springframework.web.bind.annotation.ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorPayloadWhithListDTO handeBadRequest(BadRequestException ex){
+        List<String> errorsMessage = new ArrayList<>();
+        if ()
+    }*/
 }

@@ -27,5 +27,7 @@ public class EmailSender {
                 .queryString("subject", "Registrazione avvenuta con successo!")
                 .queryString("text", "Complimenti " + recipient.getName() + " " + recipient.getSurname() + "  per esserti registrato!")
                 .asJson();
+        System.out.println(response);
     }
+
 }

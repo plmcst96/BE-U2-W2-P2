@@ -21,7 +21,7 @@ public interface DeviceRepositoryDAO extends JpaRepository<Device, UUID> {
     Page<Device> getDevicesInMaintenance(Pageable pageable);
 
     @Query("SELECT d FROM Device d WHERE d.typeDevice = :typeDevice AND d.user = :user")
-    Page<Device> getByTypeDeviceAndUser(String typeDevice, User userId, Pageable pageable);
+    Page<Device> getByTypeDeviceAndUser(String typeDevice, User user, Pageable pageable);
 
     @Query("SELECT d FROM Device d WHERE d.state = :state")
     Page<Device> getByState(String state, Pageable pageable);

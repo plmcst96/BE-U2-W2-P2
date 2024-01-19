@@ -1,4 +1,4 @@
-package cristinapalmisani.BEU2W2P2.payloads.exception;
+package cristinapalmisani.BEU2W2P2.exception;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,4 +13,6 @@ public class ErrorPayloadWhithListDTO{
     Date timestamp;
     List<String> errorlist;
 
+    public ErrorPayloadWhithListDTO(String message, Date date, List<String> errorsMessages) {
+    }
 }

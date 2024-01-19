@@ -1,4 +1,4 @@
-package cristinapalmisani.BEU2W2P2.payloads.exception;
+package cristinapalmisani.BEU2W2P2.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

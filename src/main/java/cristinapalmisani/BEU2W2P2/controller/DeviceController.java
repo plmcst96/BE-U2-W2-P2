@@ -2,6 +2,7 @@ package cristinapalmisani.BEU2W2P2.controller;
 
 import cristinapalmisani.BEU2W2P2.entities.Device;
 import cristinapalmisani.BEU2W2P2.exception.BadRequestException;
+import cristinapalmisani.BEU2W2P2.exception.NotFoundException;
 import cristinapalmisani.BEU2W2P2.payloads.device.DeviceRequestDTO;
 import cristinapalmisani.BEU2W2P2.payloads.device.DeviceResponseDTO;
 import cristinapalmisani.BEU2W2P2.services.DeviceService;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/devices")
@@ -37,4 +40,31 @@ public class DeviceController {
         }
 
     }
+    @GetMapping("/{id}")
+    public Device getDeviceById(@PathVariable UUID id) {
+        try {
+            return deviceService.findById(id);
+        } catch (Exception e) {
+            throw new NotFoundException(id);
+        }
+    }
+
+    @PutMapping("/{id}")
+    public Device findByIdAndUpdate(@PathVariable UUID id, @RequestBody @Validated DeviceRequestDTO body, BindingResult validation) {
+        if (validation.hasErrors()) {
+            throw new BadRequestException(validation.getAllErrors());
+        } else {
+            return deviceService.findByIdAndUpdate(id, body);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public void findByIdAndDelete(@PathVariable long id) {
+        try {
+            deviceService.findByIdAndDelete(id);
+        } catch (Exception e) {
+            throw new NotFoundException(id);
+        }
+    }
+
 }

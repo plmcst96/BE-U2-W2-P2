@@ -1,5 +1,9 @@
 package cristinapalmisani.BEU2W2P2.services;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import cristinapalmisani.BEU2W2P2.config.CloudinaryConfig;
+import cristinapalmisani.BEU2W2P2.config.EmailSender;
 import cristinapalmisani.BEU2W2P2.entities.User;
 import cristinapalmisani.BEU2W2P2.exception.BadRequestException;
 import cristinapalmisani.BEU2W2P2.exception.NotFoundException;
@@ -12,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -20,6 +25,10 @@ import java.util.UUID;
 public class UserService {
     @Autowired
     UserRepositoryDAO userRepositoryDAO;
+    @Autowired
+    private EmailSender emailSender;
+    @Autowired
+    private Cloudinary cloudinary;
 
     public User save(UserRequestDTO body){
         userRepositoryDAO.findByUsername(body.username()).ifPresent(a -> {
@@ -33,7 +42,9 @@ public class UserService {
         user.setName(body.name());
         user.setSurname(body.surname());
         user.setEmail(body.email());
-        return userRepositoryDAO.save(user);
+        User saveUser = userRepositoryDAO.save(user);
+        emailSender.sendRegistrationEmail(saveUser);
+        return saveUser;
     }
 
     public Page<User> getUsers(int page, int size, String sort) {
@@ -56,5 +67,13 @@ public class UserService {
         u.setSurname(body.surname());
         u.setEmail(body.email());
         return userRepositoryDAO.save(u);
+    }
+
+    public String uploadPicture(UUID id, MultipartFile file) throws IOException {
+        User user = userRepositoryDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
+        String url = (String) cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()).get("url");
+        user.setAvatar(url);
+        userRepositoryDAO.save(user);
+        return url;
     }
 }

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-@Controller
+@RestController
 @RequestMapping("/devices")
 public class DeviceController {
 
@@ -86,6 +86,14 @@ public class DeviceController {
     @GetMapping("{id}/setdisused")
     public Device putInDisused(@PathVariable UUID id) {
         return deviceService.putInDisused(id);
+    }
+
+    @GetMapping("/{userId}")
+    public Page<Device> getDeviceByUser(@PathVariable UUID userId,
+                                        @RequestParam(defaultValue = "0") int page,
+                                        @RequestParam(defaultValue = "5") int size,
+                                        @RequestParam(defaultValue = "id") String orderBy){
+        return deviceService.getDeviceByUserId(userId, page, size, orderBy);
     }
 
 

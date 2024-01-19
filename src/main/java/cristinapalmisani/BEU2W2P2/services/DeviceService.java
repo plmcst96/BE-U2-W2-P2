@@ -115,7 +115,7 @@ public class DeviceService {
         return deviceRepositoryDAO.save(device);
     }
 
-   public Page<Device> getDeviceByUserandType(String typeDevice, UUID userId, int page, int size, String orderBy){
+   public Page<Device> getDeviceByUserAndType(String typeDevice, UUID userId, int page, int size, String orderBy){
         Pageable pageable = PageRequest.of(page, size, Sort.by(orderBy));
         User user = userRepositoryDAO.findById(userId).orElseThrow(()-> new NotFoundException(userId));
         Device device = new Device();

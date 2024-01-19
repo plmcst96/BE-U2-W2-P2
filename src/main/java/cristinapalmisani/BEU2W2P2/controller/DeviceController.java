@@ -36,7 +36,8 @@ public class DeviceController {
         if (validation.hasErrors()){
             throw new BadRequestException(validation.getAllErrors());
         } else {
-            return new DeviceResponseDTO(body.userId());
+            Device device = deviceService.save(body);
+            return new DeviceResponseDTO(device.getId());
         }
 
     }
@@ -59,12 +60,33 @@ public class DeviceController {
     }
 
     @DeleteMapping("/{id}")
-    public void findByIdAndDelete(@PathVariable long id) {
+    public void findByIdAndDelete(@PathVariable UUID id) {
         try {
-            deviceService.findByIdAndDelete(id);
+            deviceService.findByIdAnDelete(id);
         } catch (Exception e) {
             throw new NotFoundException(id);
         }
     }
+
+    @GetMapping("/{deviceId}/assign/{userId}")
+    public Device assignUser(@PathVariable UUID deviceId, @PathVariable UUID userId) {
+        return deviceService.assignUser(deviceId, userId);
+    }
+
+    @GetMapping("{id}/putinmaintenance")
+    public Device putInMaintenance(@PathVariable UUID id) {
+        return deviceService.putInMaintenance(id);
+    }
+
+    @GetMapping("{id}/setavailable")
+    public Device putInAvailable(@PathVariable UUID id) {
+        return deviceService.setAvailable(id);
+    }
+
+    @GetMapping("{id}/setdisused")
+    public Device putInDisused(@PathVariable UUID id) {
+        return deviceService.putInDisused(id);
+    }
+
 
 }

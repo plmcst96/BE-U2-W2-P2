@@ -50,7 +50,7 @@ public class DeviceService {
         return deviceRepositoryDAO.findById(id).orElseThrow(()-> new NotFoundException(id));
     }
 
-    public void finfByIdAnDelete(UUID id){
+    public void findByIdAnDelete(UUID id){
         Device device = this.findById(id);
         deviceRepositoryDAO.delete(device);
     }
